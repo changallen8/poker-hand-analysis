@@ -1,13 +1,12 @@
-
+import random
 class card:
 
-    denominations = ['A','2','3','4','5','6','7','8','9','T','J','Q','K']
+    denominations = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
 
     suits = ['s','d','h','c']
 
     def __init__(self, denomination, suit):
 
-        
         if suit.lower() not in card.suits:
             raise ValueError("This is not a suit.")
 
@@ -17,7 +16,7 @@ class card:
         self.denomination = denomination.upper()
         self.suit = suit.lower()
         
-    def toString(self):
+    def __str__(self):
         longSuit = ""
 
         if self.suit == 's':
@@ -29,6 +28,19 @@ class card:
         elif self.suit == 'c':
             longSuit = "clubs"
         return self.denomination + " of " + longSuit
+
+    def __eq__(self, other):
+        return self.denomination == other.denomination and self.suit == other.suit
+
+    @staticmethod
+    def randomGenerate(cardsAlreadyPlayed):
+        denomination = random.choice(card.denominations)
+        suit = random.choice(card.suits)
+        newCard = card(denomination,suit)
+        if newCard in cardsAlreadyPlayed:
+            newCard = card.randomGenerate(cardsAlreadyPlayed)
+        return newCard
+
 
 
 

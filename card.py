@@ -1,7 +1,7 @@
 
 class card:
 
-    denominations = ['1','2','3','4','5','6','7','8','9','T','J','Q','K','A']
+    denominations = ['A','2','3','4','5','6','7','8','9','T','J','Q','K']
 
     suits = ['s','d','h','c']
 
@@ -28,7 +28,7 @@ class card:
             longSuit = "hearts"
         elif self.suit == 'c':
             longSuit = "clubs"
-        print (self.denomination + " of " + longSuit)
+        return self.denomination + " of " + longSuit
 
 
 

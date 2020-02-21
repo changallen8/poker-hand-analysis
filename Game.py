@@ -18,25 +18,27 @@ for card in myHand:
 
 anal = analysis(myHand)
 anal.preflop(myHand)
+
 anal.showOdds()
 
-# communityCards = []
-
-# command = input("Hit A for hand analysis")
-
-# if command == 'A':
-#     analysis.preflop(myHand)
+communityCards = []
 
 
-# for i in range(0,3):
-#     shownCard = card.randomGenerate(cardsAlreadyPlayed)
-#     cardsAlreadyPlayed.append(shownCard)
-#     communityCards.append(shownCard)
 
-# print("\nThe Flop is: ")
 
-# for card in communityCards:
-#     print(card)
+for i in range(0,3):
+    shownCard = card.randomGenerate(cardsAlreadyPlayed)
+    cardsAlreadyPlayed.append(shownCard)
+    communityCards.append(shownCard)
+
+print("\nThe Flop is: ")
+
+for card in communityCards:
+    print(card)
+
+print("-------")
+anal.playedCards = cardsAlreadyPlayed
+anal.postFlop()
 
 # print("\nThe Turn is: ")
 

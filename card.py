@@ -1,8 +1,10 @@
 import random
 class card:
-
-    denominations = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
-
+    """
+    Card object representation with values and suits
+    """
+    #These belong to the class
+    denominations = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
     suits = ['s','d','h','c']
 
     def __init__(self, denomination, suit):

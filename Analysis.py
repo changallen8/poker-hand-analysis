@@ -1,24 +1,144 @@
+from card import card
+
 
 class analysis:
     """
     Analyzes poker hands and shows odds of hitting certain hands
     """
-    # in order, odds at indexes: 0:pair, 1:two pair, 2:set, 3:straight, 4:flush, 5:full house, 6:four of kind, 7:straight flush
-    oddsarr = [0, 0, 0, 0, 0, 0, 0, 0]
-
+    odds = {
+        "Pair": 0,
+        "Two pair": 0,
+        "Three of a kind": 0,
+        "Straight": 0,
+        "Flush": 0,
+        "Full house": 0,
+        "Four of a kind": 0,
+        "Straight flush": 0
+    }
     
     def __init__(self, holecards):
         """
         Creates an analysis object on your current hand
         """
         self.holecards = holecards
+        self.playedCards = [holecards[0], holecards[1]]
 
     def showOdds(self):
         """
         Shows current odds
         """
-        print(self.oddsarr)
+        print("Current Odds")
+        for hand, probability in self.odds.items():
+            print(hand + " : " + str(probability))
 
+    def postFlop(self):
+        """
+        Analyze after flop
+        """
+        self.sortCards()
+        self.showPlayedCards()
+        self.checkFlush()
+        self.checkFourOfAKind()
+        self.checkFullHouse()
+        self.checkThreeOfAKind()
+        self.checkTwoPair()
+        self.checkPair()
+
+    def checkStraightFlush(self):
+        return None
+    def checkFourOfAKind(self):
+        cards = []
+        index = len(self.playedCards) - 1
+        while index > 2:
+            if self.playedCards[index].denomination == self.playedCards[index - 1].denomination:
+                if self.playedCards[index - 1].denomination == self.playedCards[index - 2].denomination:
+                    if self.playedCards[index - 2].denomination == self.playedCards[index - 3].denomination:
+                        cards.append(self.playedCards[index])
+                        cards.append(self.playedCards[index - 1])
+                        cards.append(self.playedCards[index - 2])
+                        cards.append(self.playedCards[index - 3])
+                        print("You have a four of a kind")
+                        return cards
+            index -= 1
+        return None
+    def checkFullHouse(self):
+        three = self.checkThreeOfAKind()
+        if three is None:
+            return None
+        temp = self.playedCards
+        for t in three:
+            temp.remove(t)
+        pair = self.checkPairArray(temp)
+        if pair is None:
+            return None
+        print("You have a Full House")
+        return three + pair
+    def checkFlush(self):
+        suitCount = {
+            'd': [],
+            'c': [],
+            'h': [],
+            's': []
+        }
+        index = len(self.playedCards) - 1
+        while index >= 0:
+            suitCount[self.playedCards[index].suit].append(self.playedCards[index])
+            if len(suitCount[self.playedCards[index].suit]) == 5:
+                print("You have a Flush")
+                return suitCount[self.playedCards[index].suit]
+            index -= 1
+        return None
+    def checkStraight(self):
+        return None
+    def checkThreeOfAKind(self):
+        cards = []
+        index = len(self.playedCards) - 1
+        while index > 1:
+            if self.playedCards[index].denomination == self.playedCards[index - 1].denomination:
+                if self.playedCards[index - 1].denomination == self.playedCards[index - 2].denomination:
+                    cards.append(self.playedCards[index])
+                    cards.append(self.playedCards[index - 1])
+                    cards.append(self.playedCards[index - 2])
+                    print("You have a three of a kind")
+                    return cards
+            index -= 1
+        return None
+
+    
+    def checkTwoPair(self):
+        pairs = []
+        index = len(self.playedCards) - 1
+        while index > 0:
+            if self.playedCards[index].denomination == self.playedCards[index - 1].denomination:
+                pairs.append([self.playedCards[index], self.playedCards[index - 1]])
+            if len(pairs) == 2:
+                print("You have a two pair")
+                return pairs
+            index -= 1
+        return None
+    def checkPairArray(self, cards):
+        index = len(cards) - 1
+        while index > 0:
+            if cards[index].denomination == cards[index - 1].denomination:
+                #print("You have a pair")
+                return [cards[index], cards[index - 1]]
+            index -= 1
+        return None
+    def checkPair(self):
+        index = len(self.playedCards) - 1
+        while index > 0:
+            if self.playedCards[index].denomination == self.playedCards[index - 1].denomination:
+                print("You have a pair")
+                return [self.playedCards[index], self.playedCards[index - 1]]
+            index -= 1
+        return None
+    def showPlayedCards(self):
+        for c in self.playedCards:
+            print(c)
+
+    def sortCards(self):
+        self.playedCards.sort(key=lambda currentCard: card.denominations.index(currentCard.denomination))
+    
     @staticmethod
     def preflop(holecards):
         """
@@ -34,7 +154,6 @@ class analysis:
             suited = 0
 
         switcher = {
-            'A': 1,
             '2': 2,
             '3': 3,
             '4': 4,
@@ -47,6 +166,7 @@ class analysis:
             'J': 11,
             'Q': 12,
             'K': 13,
+            'A': 14
         }
         temp = switcher[holecards[0].denomination]
         temp2 = switcher[holecards[1].denomination]

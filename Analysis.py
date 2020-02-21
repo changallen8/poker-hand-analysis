@@ -1,10 +1,29 @@
 
 class analysis:
+    """
+    Analyzes poker hands and shows odds of hitting certain hands
+    """
+    # in order, odds at indexes: 0:pair, 1:two pair, 2:set, 3:straight, 4:flush, 5:full house, 6:four of kind, 7:straight flush
+    oddsarr = [0, 0, 0, 0, 0, 0, 0, 0]
+
+    
+    def __init__(self, holecards):
+        """
+        Creates an analysis object on your current hand
+        """
+        self.holecards = holecards
+
+    def showOdds(self):
+        """
+        Shows current odds
+        """
+        print(self.oddsarr)
 
     @staticmethod
     def preflop(holecards):
-        # in order, odds at indexes: 0:pair, 1:two pair, 2:set, 3:straight, 4:flush, 5:full house, 6:four of kind, 7:straight flush
-        oddsarr = [0, 0, 0, 0, 0, 0, 0, 0]
+        """
+        Analyzes own cards before flop
+        """
         if holecards[0].denomination == holecards[1].denomination:
             pockets = 1
         else:
@@ -29,8 +48,8 @@ class analysis:
             'Q': 12,
             'K': 13,
         }
-        temp = switcher.get(holecards[0].denomination)
-        temp2 = switcher.get(holecards[1].denomination)
+        temp = switcher[holecards[0].denomination]
+        temp2 = switcher[holecards[1].denomination]
         num1 = max(temp, temp2)
         num2 = min(temp, temp2)
         # Checks if cards are connected / can make a straight or not
@@ -43,13 +62,12 @@ class analysis:
             print("You have a pair")
             
         elif connected == 1 and suited == 1:
-            print("You have suited connecters")
+            print("You have suited connectors")
         elif connected == 1:
-            print("You have connecters")
+            print("You have connectors")
         elif suited == 1:
-            print("you have suited cards")
+            print("You have suited cards")
         else:
-            print("fold")
-        command = input("\nPress enter to continue")
+            print("Bruh fold")
 
 

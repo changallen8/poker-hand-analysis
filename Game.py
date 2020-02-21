@@ -1,5 +1,5 @@
 from card import card
-from analysis import analysis
+from Analysis import analysis
 
 cardsAlreadyPlayed = []
 
@@ -15,37 +15,42 @@ print("My hand is: ")
 for card in myHand:
     print(card)
 
-communityCards = []
 
-command = input("Hit A for hand analysis")
+anal = analysis(myHand)
+anal.preflop(myHand)
+anal.showOdds()
 
-if command == 'A':
-    analysis.preflop(myHand)
+# communityCards = []
+
+# command = input("Hit A for hand analysis")
+
+# if command == 'A':
+#     analysis.preflop(myHand)
 
 
-for i in range(0,3):
-    shownCard = card.randomGenerate(cardsAlreadyPlayed)
-    cardsAlreadyPlayed.append(shownCard)
-    communityCards.append(shownCard)
+# for i in range(0,3):
+#     shownCard = card.randomGenerate(cardsAlreadyPlayed)
+#     cardsAlreadyPlayed.append(shownCard)
+#     communityCards.append(shownCard)
 
-print("\nThe Flop is: ")
+# print("\nThe Flop is: ")
 
-for card in communityCards:
-    print(card)
+# for card in communityCards:
+#     print(card)
 
-print("\nThe Turn is: ")
+# print("\nThe Turn is: ")
 
-turnCard = card.randomGenerate(cardsAlreadyPlayed)
-cardsAlreadyPlayed.append(turnCard)
-communityCards.append(turnCard)
+# turnCard = card.randomGenerate(cardsAlreadyPlayed)
+# cardsAlreadyPlayed.append(turnCard)
+# communityCards.append(turnCard)
 
-print(turnCard)
+# print(turnCard)
 
-print("\nThe River is: ")
+# print("\nThe River is: ")
 
-riverCard = card.randomGenerate(cardsAlreadyPlayed)
-cardsAlreadyPlayed.append(riverCard)
-communityCards.append(riverCard)
+# riverCard = card.randomGenerate(cardsAlreadyPlayed)
+# cardsAlreadyPlayed.append(riverCard)
+# communityCards.append(riverCard)
 
-print(riverCard)
+# print(riverCard)
 

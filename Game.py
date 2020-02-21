@@ -1,4 +1,5 @@
 from card import card
+from analysis import analysis
 
 cardsAlreadyPlayed = []
 
@@ -15,6 +16,12 @@ for card in myHand:
     print(card)
 
 communityCards = []
+
+command = input("Hit A for hand analysis")
+
+if command == 'A':
+    analysis.preflop(myHand)
+
 
 for i in range(0,3):
     shownCard = card.randomGenerate(cardsAlreadyPlayed)

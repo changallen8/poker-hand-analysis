@@ -16,6 +16,23 @@ class analysis:
         "Straight flush": 0
     }
     
+    switcher = {
+            '1': 1,
+            '2': 2,
+            '3': 3,
+            '4': 4,
+            '5': 5,
+            '6': 6,
+            '7': 7,
+            '8': 8,
+            '9': 9,
+            '10': 10,
+            'J': 11,
+            'Q': 12,
+            'K': 13,
+            'A': 14
+    }
+
     def __init__(self, holecards):
         """
         Creates an analysis object on your current hand
@@ -89,6 +106,35 @@ class analysis:
             index -= 1
         return None
     def checkStraight(self):
+        cards = []
+        index = len(self.playedCards) - 1
+        for x in range(0,3):
+            if analysis.switcher[self.playedCards[index].denomination] == (analysis.switcher[self.playedCards[index-1].denomination] - 1):
+                cards.append(self.playedCards[index])
+                if analysis.switcher[self.playedCards[index].denomination] == (analysis.switcher[self.playedCards[index-2].denomination] - 2):
+                    cards.append(self.playedCards[index-1])
+                    if analysis.switcher[self.playedCards[index].denomination] == (analysis.switcher[self.playedCards[index-3].denomination] - 3):
+                        cards.append(self.playedCards[index-2])
+                        if analysis.switcher[self.playedCards[index].denomination] == (analysis.switcher[self.playedCards[index-4].denomination] - 4):
+                            cards.append(self.playedCards[index-3])
+                            cards.append(self.playedCards[index-4])
+                            return cards
+                        else:
+                            cards.clear()
+                    else:
+                        cards.clear()
+                else:
+                    cards.clear()
+            else:
+                cards.clear()
+            index = index - 1
+        if analysis.switcher[self.playedCards[0].denomination] == 2 and analysis.switcher[self.playedCards[1].denomination] == 3 and analysis.switcher[self.playedCards[2].denomination] == 4  and analysis.switcher[self.playedCards[3].denomination] == 5 and analysis.switcher[self.playedCards[len(self.playedCards)-1].denomination] == 14:
+            cards.append(self.playedCards[0])
+            cards.append(self.playedCards[1])
+            cards.append(self.playedCards[2])
+            cards.append(self.playedCards[3])
+            cards.append(self.playedCards[len(self.playedCards)-1])
+            return cards
         return None
     def checkThreeOfAKind(self):
         cards = []
@@ -153,23 +199,9 @@ class analysis:
         else:
             suited = 0
 
-        switcher = {
-            '2': 2,
-            '3': 3,
-            '4': 4,
-            '5': 5,
-            '6': 6,
-            '7': 7,
-            '8': 8,
-            '9': 9,
-            '10': 10,
-            'J': 11,
-            'Q': 12,
-            'K': 13,
-            'A': 14
-        }
-        temp = switcher[holecards[0].denomination]
-        temp2 = switcher[holecards[1].denomination]
+        
+        temp = analysis.switcher[holecards[0].denomination]
+        temp2 = analysis.switcher[holecards[1].denomination]
         num1 = max(temp, temp2)
         num2 = min(temp, temp2)
         # Checks if cards are connected / can make a straight or not
